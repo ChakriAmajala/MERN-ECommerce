@@ -165,7 +165,7 @@ const UploadProduct = ({
                                         alt={el} 
                                         width={80} 
                                         height={80}  
-                                        className='bg-slate-100 border cursor-pointer'  
+                                        className='bg-slate-100 border cursor-pointer'
                                         onClick={()=>{
                                           setOpenFullScreenImage(true)
                                           setFullScreenImage(el)

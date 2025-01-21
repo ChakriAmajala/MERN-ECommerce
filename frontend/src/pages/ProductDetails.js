@@ -120,7 +120,7 @@ const ProductDetails = ({limit=[250]}) => {
               <div className=' wd-wishlist-btn w-fit ml-auto text-2xl hover:text-white hover:bg-red-500 cursor-pointer' onClick={(e)=>handleAddToWishlist(e,data?._id)}>
                 <FaRegHeart/>
               </div>
-                  <img src={activeImage} className='h-full w-full object-scale-down mix-blend-multiply' onMouseMove={handleZoomImage} onMouseLeave={handleLeaveImageZoom}/>
+                  <img src={activeImage} className='h-full w-full object-scale-down mix-blend-multiply' alt='' onMouseMove={handleZoomImage} onMouseLeave={handleLeaveImageZoom}/>
 
                     {/**product zoom */}
                     {
@@ -163,7 +163,7 @@ const ProductDetails = ({limit=[250]}) => {
                           data?.productImage?.map((imgURL,index) =>{
                             return(
                               <div className='h-20 w-20 bg-slate-200 rounded p-1' key={imgURL}>
-                                <img src={imgURL} className='w-full h-full object-scale-down mix-blend-multiply cursor-pointer' onMouseEnter={()=>handleMouseEnterProduct(imgURL)}  onClick={()=>handleMouseEnterProduct(imgURL)}/>
+                                <img src={imgURL} className='w-full h-full object-scale-down mix-blend-multiply cursor-pointer' alt='' onMouseEnter={()=>handleMouseEnterProduct(imgURL)}  onClick={()=>handleMouseEnterProduct(imgURL)}/>
                               </div>
                             )
                           })
