@@ -14,21 +14,6 @@ const allowedOrigins = [
     'http://localhost:3000', // Local development URL
     process.env.FRONTEND_URL // Production frontend URL (from .env)
   ];
-
-// app.use(cors({
-//     origin: (origin, callback) => {
-//         if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-//           callback(null, true); // Allow requests from allowed origins
-//         } else {
-//           callback(new Error('Not allowed by CORS'));
-//         }
-//       },
-//       credentials: true, 
-//       methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
-//   allowedHeaders: ['Content-Type', 'Authorization'] // Allowed headers
-//     // origin : process.env.FRONTEND_URL,
-//     // credentials : true
-// }))
 app.use(cors({
     origin: (origin, callback) => {
       if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
@@ -38,9 +23,17 @@ app.use(cors({
       }
     },
     credentials: true, // Allow credentials (cookies, etc.)
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
-    allowedHeaders: ['Content-Type', 'Authorization'] // Allowed headers
+    methods: ['GET', 'POST', 'PUT', 'DELETE' , 'OPTIONS'], // Allowed methods
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'X-Requested-With'] // Allowed headers
   }));
+
+  app.options('*', cors());
+
+//   res.cookie('token', token, {
+//     httpOnly: true,
+//     secure: process.env.NODE_ENV === 'production',  // Use secure cookies in production (HTTPS)
+//     sameSite: 'None', // For cross-origin cookies
+// });
 app.use(express.json())
 app.use(cookieParser())
 
