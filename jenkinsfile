@@ -1,11 +1,11 @@
 pipeline {
-   agent any
- 
-environment {
-      DOCKERHUB_CREDENTAILS = credentials('dockerhub4')
-      IMAGE_NAME = "chakriamajaladocker/mern-ecommerce"
+    agent any
 
-          
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub4')  
+        IMAGE_NAME = "chakriamajaladocker/mern-ecommerce"
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -16,7 +16,7 @@ environment {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh 'docker build -t $IMAGE_NAME:$BUILD_NUMBER .'
+                    sh "docker build -t $IMAGE_NAME:$BUILD_NUMBER ."
                 }
             }
         }
@@ -24,7 +24,7 @@ environment {
         stage('Login to DockerHub') {
             steps {
                 script {
-                    sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                    sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
                 }
             }
         }
@@ -32,13 +32,11 @@ environment {
         stage('Push Docker Image') {
             steps {
                 script {
-                    sh 'docker push $IMAGE_NAME:$BUILD_NUMBER'
-                    sh 'docker tag $IMAGE_NAME:$BUILD_NUMBER $IMAGE_NAME:latest'
-                    sh 'docker push $IMAGE_NAME:latest'
+                    sh "docker push $IMAGE_NAME:$BUILD_NUMBER"
+                    sh "docker tag $IMAGE_NAME:$BUILD_NUMBER $IMAGE_NAME:latest"
+                    sh "docker push $IMAGE_NAME:latest"
                 }
             }
         }
     }
 }
-
-              
