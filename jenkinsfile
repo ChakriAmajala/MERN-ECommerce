@@ -1,0 +1,44 @@
+pipeline {
+   agent any
+ 
+environment {
+      DOCKERHUB_CREDENTAILS = credentials('dockerhub4')
+      IMAGE_NAME = "chakriamajaladocker/mern-ecommerce"
+
+          
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/ChakriAmajala/MERN-ECommerce.git'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    sh 'docker build -t $IMAGE_NAME:$BUILD_NUMBER .'
+                }
+            }
+        }
+
+        stage('Login to DockerHub') {
+            steps {
+                script {
+                    sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    sh 'docker push $IMAGE_NAME:$BUILD_NUMBER'
+                    sh 'docker tag $IMAGE_NAME:$BUILD_NUMBER $IMAGE_NAME:latest'
+                    sh 'docker push $IMAGE_NAME:latest'
+                }
+            }
+        }
+    }
+}
+
+              
