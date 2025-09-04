@@ -1,20 +1,19 @@
-# ---------- Frontend Build ----------
-FROM node:18-slim AS frontend
+FROM node:18-slim
+
 WORKDIR /app
-COPY client/package*.json ./client/
-RUN cd client && npm install && npm cache clean --force
-COPY client ./client
-RUN cd client && npm run build
 
-# ---------- Backend Build ----------
-FROM node:18-slim AS backend
-WORKDIR /app
-COPY server/package*.json ./server/
-RUN cd server && npm install --production && npm cache clean --force
-COPY server ./server
+# Install dependencies
+COPY package*.json ./
+RUN npm install && npm cache clean --force
 
-# Copy frontend build into backend's public folder (if served by express)
-COPY --from=frontend /app/client/build ./server/public
+# Copy everything
+COPY . .
 
+# If React client exists, build it
+RUN if [ -d "client" ]; then cd client && npm install && npm run build; fi
+
+# Expose backend port
 EXPOSE 5000
-CMD ["node", "server/index.js"]
+
+# Start Node.js app
+CMD ["npm", "start"]
