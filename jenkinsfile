@@ -10,8 +10,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/ChakriAmajala/MERN-ECommerce.git'
+                git branch: 'main', url: 'https://github.com/ChakriAmajala/MERN-ECommerce.git'
             }
         }
 
@@ -21,7 +20,7 @@ pipeline {
             }
         }
 
-        stage('Push to DockerHub') {
+        stage('Push Docker Image') {
             steps {
                 withCredentials([usernamePassword(credentialsId: "${DOCKERHUB_CRED}", usernameVariable: "DOCKER_USER", passwordVariable: "DOCKER_PASS")]) {
                     sh """
@@ -33,4 +32,3 @@ pipeline {
         }
     }
 }
-
